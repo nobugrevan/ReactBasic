@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>React Basics Quiz</title>
+  <script src="https://cdn.jsdelivr.net/npm/react@18.2.0/umd/react.development.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/react-dom@18.2.0/umd/react-dom.development.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@babel/standalone@7.20.15/babel.min.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .main {
+      margin: 20px;
+      padding: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+  <script type="text/babel">
+    const { useState, useEffect } = React;
+
+    const questions = [
+      {
+        id: 1,
+        question: "What is React primarily used for?",
+        options: [
+          "Server-side rendering",
+          "Building user interfaces",
+          "Database management",
+          "Network routing"
+        ],
+        correctAnswer: "Building user interfaces",
+        explanation: "React is a JavaScript library for building user interfaces, particularly single-page applications, using a component-based architecture."
+      },
+      {
+        id: 2,
+        question: "What is a React component?",
+        options: [
+          "A CSS stylesheet",
+          "A reusable piece of UI",
+          "A database query",
+          "A server endpoint"
+        ],
+        correctAnswer: "A reusable piece of UI",
+        explanation: "A React component is a reusable building block for UI, defined as a function or class that returns JSX to describe part of the interface."
+      },
+      {
+        id: 3,
+        question: "What is the purpose of `props` in React?",
+        options: [
+          "To manage state",
+          "To pass data to components",
+          "To handle events",
+          "To style components"
+        ],
+        correctAnswer: "To pass data to components",
+        explanation: "Props (short for properties) are used to pass data from a parent component to a child component, enabling dynamic rendering."
+      },
+      {
+        id: 4,
+        question: "In the `EmoList` component, what is passed as a prop to `EmpItem`?",
+        options: [
+          "The entire `employeeDetail` array",
+          "An individual employee object",
+          "The search input value",
+          "The `useState` hook"
+        ],
+        correctAnswer: "An individual employee object",
+        explanation: "In `EmoList`, the `EmpItem` component receives an individual employee object via the `emp` prop in the `map` function."
+      },
+      {
+        id: 5,
+        question: "What does the `useState` hook return?",
+        options: [
+          "A state value and an update function",
+          "A component and its props",
+          "An event handler and a state",
+          "A promise and a callback"
+        ],
+        correctAnswer: "A state value and an update function",
+        explanation: "`useState` returns an array with the current state value and a function to update it, e.g., `[data, setData]` in `EmoList`."
+      },
+      {
+        id: 6,
+        question: "How is `useState` used in the updated `EmoList` component?",
+        options: [
+          "To fetch data",
+          "To manage search input and filtered data",
+          "To handle click events",
+          "To apply CSS styles"
+        ],
+        correctAnswer: "To manage search input and filtered data",
+        explanation: "`useState` manages `data` (filtered employees) and `txt` (search input) in `EmoList` for dynamic rendering."
+      },
+      {
+        id: 7,
+        question: "What triggers a re-render in a React component?",
+        options: [
+          "A change in props or state",
+          "A change in CSS",
+          "A change in the browser URL",
+          "A change in the server"
+        ],
+        correctAnswer: "A change in props or state",
+        explanation: "React components re-render when their state (via `useState`) or props change, causing the UI to update."
+      },
+      {
+        id: 8,
+        question: "What is the purpose of the `useEffect` hook?",
+        options: [
+          "To manage state",
+          "To handle side effects",
+          "To render JSX",
+          "To pass props"
+        ],
+        correctAnswer: "To handle side effects",
+        explanation: "`useEffect` is used for side effects like data fetching, subscriptions, or filtering data, as seen in `EmoList` for search filtering."
+      },
+      {
+        id: 9,
+        question: "In `EmoList`, what causes `useEffect` to run?",
+        options: [
+          "A change in `data`",
+          "A change in `txt`",
+          "A click event",
+          "A component mount only"
+        ],
+        correctAnswer: "A change in `txt`",
+        explanation: "The `useEffect` in `EmoList` has `[txt]` as its dependency array, so it runs whenever the `txt` state changes."
+      },
+      {
+        id: 10,
+        question: "What is the role of the `onClick` event in React?",
+        options: [
+          "To handle mouse clicks",
+          "To manage state",
+          "To filter data",
+          "To apply styles"
+        ],
+        correctAnswer: "To handle mouse clicks",
+        explanation: "`onClick` is an event handler in React that responds to mouse click events, triggering a specified function."
+      },
+      {
+        id: 11,
+        question: "How can an `onClick` event be added to a button in React?",
+        options: [
+          "<button onClick={handleClick}>Click</button>",
+          "<button click={handleClick}>Click</button>",
+          "<button onClick='handleClick'>Click</button>",
+          "<button event={handleClick}>Click</button>"
+        ],
+        correctAnswer: "<button onClick={handleClick}>Click</button>",
+        explanation: "In React, `onClick` is assigned a function reference using curly braces, e.g., `onClick={handleClick}`."
+      },
+      {
+        id: 12,
+        question: "What is a controlled component in React?",
+        options: [
+          "A component with no state",
+          "A component whose value is controlled by state",
+          "A component with only props",
+          "A component with no events"
+        ],
+        correctAnswer: "A component whose value is controlled by state",
+        explanation: "In `EmoList`, the search input is controlled because its `value` is tied to the `txt` state, updated via `onChange`."
+      },
+      {
+        id: 13,
+        question: "What happens if `useEffect` has an empty dependency array?",
+        options: [
+          "It runs on every render",
+          "It runs only once on mount",
+          "It never runs",
+          "It runs on state changes"
+        ],
+        correctAnswer: "It runs only once on mount",
+        explanation: "An empty dependency array `[]` in `useEffect` means the effect runs once when the component mounts."
+      },
+      {
+        id: 14,
+        question: "What is JSX in React?",
+        options: [
+          "A styling language",
+          "A syntax extension for JavaScript",
+          "A database query language",
+          "A state management tool"
+        ],
+        correctAnswer: "A syntax extension for JavaScript",
+        explanation: "JSX allows writing HTML-like code in JavaScript, which React uses to describe UI components."
+      },
+      {
+        id: 15,
+        question: "How are props accessed in a functional component?",
+        options: [
+          "Using `this.props`",
+          "As a function parameter",
+          "Using `state.props`",
+          "Using `useProps` hook"
+        ],
+        correctAnswer: "As a function parameter",
+        explanation: "In functional components, props are passed as a parameter, e.g., `function EmpItem({ emp })` in `EmoList`."
+      },
+      {
+        id: 16,
+        question: "What does `setState` do in `useState`?",
+        options: [
+          "Renders the component",
+          "Updates the state and triggers a re-render",
+          "Fetches data",
+          "Handles events"
+        ],
+        correctAnswer: "Updates the state and triggers a re-render",
+        explanation: "`setState` (e.g., `setTxt`) updates the state and causes the component to re-render with the new state."
+      },
+      {
+        id: 17,
+        question: "Why is a `key` prop important when rendering lists in React?",
+        options: [
+          "It styles list items",
+          "It helps React identify elements for efficient updates",
+          "It filters the list",
+          "It triggers events"
+        ],
+        correctAnswer: "It helps React identify elements for efficient updates",
+        explanation: "The `key` prop uniquely identifies list items, helping React optimize rendering, as assumed in `EmoList` with `EmpItem`."
+      },
+      {
+        id: 18,
+        question: "What is the purpose of the `onChange` event in the `EmoList` search input?",
+        options: [
+          "To submit the form",
+          "To update the `txt` state",
+          "To clear the input",
+          "To style the input"
+        ],
+        correctAnswer: "To update the `txt` state",
+        explanation: "The `onChange` event in `EmoList` updates the `txt` state with `setTxt(e.target.value)`, triggering filtering."
+      },
+      {
+        id: 19,
+        question: "What happens if you call `setState` inside `useEffect` without a dependency array?",
+        options: [
+          "It causes an infinite loop",
+          "It runs once",
+          "It crashes the app",
+          "It does nothing"
+        ],
+        correctAnswer: "It causes an infinite loop",
+        explanation: "Without a dependency array, `useEffect` runs on every render, and calling `setState` causes a re-render, leading to an infinite loop."
+      },
+      {
+        id: 20,
+        question: "How can you prevent `useEffect` from running on every render?",
+        options: [
+          "Remove `useEffect`",
+          "Add a dependency array",
+          "Use `useState` instead",
+          "Add an `onClick` event"
+        ],
+        correctAnswer: "Add a dependency array",
+        explanation: "A dependency array in `useEffect` specifies when the effect should run, preventing it from running on every render."
+      }
+    ];
+
+    const Quiz = () => {
+      const [answers, setAnswers] = useState({});
+      const [submitted, setSubmitted] = useState(false);
+      const [score, setScore] = useState(0);
+
+      const handleAnswerChange = (questionId, option) => {
+        setAnswers((prev) => ({ ...prev, [questionId]: option }));
+      };
+
+      const handleSubmit = () => {
+        let correctCount = 0;
+        questions.forEach((q) => {
+          if (answers[q.id] === q.correctAnswer) {
+            correctCount++;
+          }
+        });
+        setScore(correctCount);
+        setSubmitted(true);
+      };
+
+      return (
+        <div className="main max-w-4xl mx-auto">
+          <h1 className="text-3xl font-bold mb-6 text-center">PickupBiz Software Pvt Ltd </h1>
+          {questions.map((q) => (
+            <div key={q.id} className="mb-6 p-4 border rounded-lg shadow-md">
+              <p className="text-lg font-semibold mb-2">{q.id}. {q.question}</p>
+              {q.options.map((option) => (
+                <div key={option} className="mb-2">
+                  <label className="flex items-center">
+                    <input
+                      type="radio"
+                      name={`question-${q.id}`}
+                      value={option}
+                      checked={answers[q.id] === option}
+                      onChange={() => handleAnswerChange(q.id, option)}
+                      disabled={submitted}
+                      className="mr-2"
+                    />
+                    {option}
+                  </label>
+                </div>
+              ))}
+              {submitted && (
+                <div className="mt-4">
+                  <p className="font-semibold">
+                    Your Answer: {answers[q.id] || "Not answered"}
+                  </p>
+                  <p className="font-semibold">
+                    Correct Answer: {q.correctAnswer}
+                  </p>
+                  <p className="text-gray-600">{q.explanation}</p>
+                </div>
+              )}
+            </div>
+          ))}
+          {!submitted && (
+            <button
+              onClick={handleSubmit}
+              className="mt-6 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+              disabled={Object.keys(answers).length < questions.length}
+            >
+              Submit
+            </button>
+          )}
+          {submitted && (
+            <div className="mt-6 p-4 bg-green-100 rounded">
+              <p className="text-xl font-bold">
+                Your Score: {score} out of {questions.length}
+              </p>
+              <p className="text-lg">
+                Percentage: {((score / questions.length) * 100).toFixed(2)}%
+              </p>
+            </div>
+          )}
+        </div>
+      );
+    };
+
+    ReactDOM.render(<Quiz />, document.getElementById('root'));
+  </script>
+</body>
+</html>
